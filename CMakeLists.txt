@@ -7,3 +7,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 
 add_executable(Q1 Q1.cpp)
 add_executable(Q2 Q2.cpp)
+add_executable(Q3 Q3.cpp)
