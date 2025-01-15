@@ -2,6 +2,7 @@
 #include <queue>
 #include <iostream>
 #include <chrono>
+#include <fstream>
 
 void calc(int num, const std::vector<int> &in) {
     std::vector<std::queue<int>> res;
@@ -34,11 +35,49 @@ void calc(int num, const std::vector<int> &in) {
     }
 }
 
-int main() {
-    std::vector<int> in{3, 17, 42, 1, 26, 8, 0, 63, 90, 1, 6, 53, 60};
+void worker(int id, int start, int target, const std::vector<int> &data, int &out) {
+    int N = data.size();
+
+    int sum_ = 0;
+    for (int i = start; i < N; ++i) {
+        sum_ += data[i];
+        if (sum_ >= target) out = i;
+    }
+}
+
+void calc_opt(int num, const std::vector<int> &in) {
+    int N = in.size();
+
+    std::vector<int> bucket(N, -1);
+
+    // multithreads call workers
+}
+
+int main(int argc, char* argv[]) {
+    if (argc != 3) {
+        std::cerr << "Usage: " << argv[0] << " <sum>" << " <filename>\n";
+        return 1;
+    }
+
+    int target_val = std::stoi(std::string(argv[1]));
+    std::string fileName = argv[2];
+    std::ifstream inputFile(fileName);
+    std::vector<int> data_in;
+
+    int row;
+
+    if (inputFile.is_open()) {
+        while (inputFile >> row) {
+            data_in.push_back(row);
+        }
+        inputFile.close();
+    } else {
+        std::cerr << "Unable to open file: " << fileName << "\n";
+        return 1;
+    }
 
     auto start = std::chrono::high_resolution_clock::now();
-    calc(80, in);
+    calc(target_val, data_in);
     auto end = std::chrono::high_resolution_clock::now();
 
     std::chrono::duration<double> elapsed = end - start;
