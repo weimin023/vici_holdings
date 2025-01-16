@@ -5,7 +5,8 @@
 #include <chrono>
 #include <fstream>
 
-#define SHOW_DISPLAY 1
+#define SHOW_V1_RESULT 0
+#define SHOW_V2_RESULT 0
 
 void calc(int num, const std::vector<int> &in) {
     std::vector<std::queue<int>> res;
@@ -29,7 +30,7 @@ void calc(int num, const std::vector<int> &in) {
         }
     }
 
-    if (SHOW_DISPLAY) {
+    if (SHOW_V1_RESULT) {
         for (auto &q:res) {
             while (!q.empty()) {
                 std::cout<<q.front()<<" ";
@@ -99,7 +100,7 @@ void calc_opt(int num, const std::vector<int> &in) {
         }
     }
 
-    if (SHOW_DISPLAY) {
+    if (SHOW_V2_RESULT) {
         for (auto &i:collect) {
             for (int p = i.first; p <= i.second; ++p) {
                 std::cout<<in[p]<<" ";
@@ -151,7 +152,7 @@ int main(int argc, char* argv[]) {
         t_ver2 += elapsedV2.count();
     }
     
-    std::cout << "v1 duration: " << (t_ver1/N_TRIALS) / 1e9 << " ns\n";
-    std::cout << "v2 duration: " << (t_ver2/N_TRIALS) / 1e9 << " ns\n";
+    std::cout << "1. Single Thread Duration: " << (t_ver1/N_TRIALS) / 1e9 << " ns\n";
+    std::cout << "2. Multiple Threads Duration: " << (t_ver2/N_TRIALS) / 1e9 << " ns\n";
     return 0;
 }
